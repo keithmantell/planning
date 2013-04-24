@@ -1,0 +1,22 @@
+* Planning
+** Introduction
+A Clojure experiment in a planning system
+*** Code               
+#+name: basic-clojure
+#+begin_src clojure :results silent
+  (+ 1 4)
+#+end_src
+                                              
+#+begin_src clojure
+(ns plan.core)
+
+(defn foo
+  "I don't do a whole lot."
+  [x]
+  (println x "Hello, World!"))
+
+(plan.core/foo "keith")
+#+end_src
+
+#+results:
+
