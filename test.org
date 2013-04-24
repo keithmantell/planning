@@ -1,0 +1,5 @@
+* Test
+#+name: basic-session-clojure :session s1
+#+begin_src clojure :results silent
+   (+ 1 4)
+#+end_src
