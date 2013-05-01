@@ -2,21 +2,35 @@
 ** Introduction
 A Clojure experiment in a planning system
 *** Code               
-#+name: basic-clojure
-#+begin_src clojure :results silent
-  (+ 1 4)
-#+end_src
-                                              
-#+begin_src clojure
-(ns plan.core)
-
-(defn foo
-  "I don't do a whole lot."
-  [x]
-  (println x "Hello, World!"))
-
-(plan.core/foo "keith")
+#+name: set-clojure-session-var-s1
+#+begin_src clojure :session s1 :results value :tangle yes
+(def *var* [1 2 3])
 #+end_src
 
-#+results:
+#+results: set-clojure-session-var-s1
+| function | user/*var* |
+
+#+name: set-clojure-session-var-s2
+#+begin_src clojure :session s2 :results value
+(def *var* [3 4 5 6 7 8 9])
+#+end_src
+
+#+results: set-clojure-session-var-s2
+| function | user/*var* |
+
+#+name: get-clojure-session-var-s1
+#+begin_src clojure :session s1 :results value
+(count *var*)
+#+end_src
+
+#+results: get-clojure-session-var-s1
+: 7
+
+#+name: get-clojure-session-var-s2
+#+begin_src clojure :session s2 :results value
+(count *var*)
+#+end_src
+
+#+results: get-clojure-session-var-s2
+: 3
 
