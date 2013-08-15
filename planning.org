@@ -1,7 +1,15 @@
 * Planning
 ** Introduction
 A Clojure experiment in a planning system
-*** Code               
+** Requirements
+Come up with a planning system
+*** Concept: Plan
+The unit of planning
+#+begin_src clojure :session s1 :results value :tangle yes
+(defrecord Plan [^String name])
+#+end_src
+*** Concept: Owner
+** Code               
 #+name: set-clojure-session-var-s1
 #+begin_src clojure :session s1 :results value :tangle yes
 (def *var* [1 2 3])
