@@ -10,3 +10,13 @@ pom.xml.asc
 .lein-failures
 .lein-plugins
 .lein-repl-history
+/csv2/project.clj~
+/csv2/src/csv2/core.clj~
+/csv2/target/native/Linux/amd64/libsqlitejdbc.so
+/csv2/target/native/Linux/i386/libsqlitejdbc.so
+/csv2/target/native/Mac/i386/libsqlitejdbc.jnilib
+/csv2/target/native/Mac/x86_64/libsqlitejdbc.jnilib
+/csv2/target/native/Windows/amd64/sqlitejdbc.dll
+/csv2/target/native/Windows/x86/sqlitejdbc.dll
+/csv2/target/repl-port
+/csv2/target/stale/extract-native.dependencies
