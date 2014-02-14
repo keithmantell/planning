@@ -20,3 +20,4 @@ pom.xml.asc
 /csv2/target/native/Windows/x86/sqlitejdbc.dll
 /csv2/target/repl-port
 /csv2/target/stale/extract-native.dependencies
+/csv2/db/database.db
