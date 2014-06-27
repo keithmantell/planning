@@ -1,27 +1,19 @@
 (ns csv2.core
-  (:use [csv-map.core] 
-        [clojure.java.jdbc] ))
+  (:use [csv-map.core]) 
+  (:use [clojure.java.jdbc :as jdbc] ))
 
-(def db
+(def db-spec
   {:classname   "org.sqlite.JDBC"
    :subprotocol "sqlite"
    :subname     "db/database.db"
    })
 
-(defn create-db []
-  (try (with-connection db 
-         (create-table :supply
-                       [:manager :text]
-                       [:name :text]
-                       [:id :text]
-                       [:january :text]
-                       [:february :text]))
-       (catch Exception e (println e))))
 
+(comment
 (defn drop-db []
   (try (with-connection db 
          (drop-table :supply))
-       (catch Exception e (println e))))
+       (catch Exception e (println e)))))
 
 ;;; Define key functions
 
@@ -35,25 +27,26 @@
 ;; csv2.core> (keys (first resource-map))
 ;;;("February" "January" "Id" "Name" "Manager")
 
-(drop-db)
-(create-db)
+;(drop-db)
+;(create-db)
 
 (comment
-(def resource-map (parse-csv (slurp "file.csv")))
-(def resources (map keyw resource-map))
-
-(map #(with-connection db
-  (insert-records :supply %)) resources)
-
-(def output
-  (with-connection db
-    (with-query-results rs ["select * from supply"] (doall rs))))
-
-(keys (first output))
-
-)
-
-(map #(with-connection db
-  (insert-records :supply %)) allsupply2)
-;(({:last_insert_rowid() 7}) ({:last_insert_rowid() 8}))
-; adds records
+  (def resource-map (parse-csv (slurp "file.csv")))
+  (def resources (map keyw resource-map))
+  
+  (map #(with-connection db
+          (insert-records :supply %)) resources)
+  
+  (def output
+    (with-connection db
+      (with-query-results rs ["select * from supply"] (doall rs))))
+  
+  (keys (first output))
+  
+  
+  
+  (map #(with-db-connection db
+          (insert-records :supply %)) allsupply2)
+                                        ;(({:last_insert_rowid() 7}) ({:last_insert_rowid() 8}))
+                                        ; adds records
+  )
