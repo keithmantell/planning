@@ -2,18 +2,24 @@
   (:use [csv-map.core]) 
   (:use [clojure.java.jdbc :as jdbc] ))
 
+;; write supply csv files to database supply table
+
+;; define database connection details
 (def db-spec
   {:classname   "org.sqlite.JDBC"
    :subprotocol "sqlite"
    :subname     "db/database.db"
    })
 
-
-(comment
-(defn drop-db []
-  (try (with-connection db 
-         (drop-table :supply))
-       (catch Exception e (println e)))))
+(defn supply-table []
+  (jdbc/create-table-ddl :supply
+                         [:manager :text]
+                         [:name :text]
+                         [:id :text]
+                         [:january :text]
+                         [:february :text]))
+(defn insert-row [row]
+  (jdbc/insert! db-spec :supply row))
 
 ;;; Define key functions
 
