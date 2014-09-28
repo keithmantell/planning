@@ -4,6 +4,11 @@
 
 ;; write supply csv files to database supply table
 
+;; read files
+(def directory (clojure.java.io/file "~/clojure/planning/csv2/src/csv2"))
+(def files (file-seq directory))
+(take 10 files)
+
 ;; define database connection details
 (def db-spec
   {:classname   "org.sqlite.JDBC"
