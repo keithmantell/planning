@@ -16,10 +16,17 @@
                          [:manager :text]
                          [:name :text]
                          [:id :text]
+                         [:category :text]
                          [:january :text]
                          [:february :text]))
 (defn insert-row [row]
   (jdbc/insert! db-spec :supply row))
+
+;; Resource categories (set)
+(def categories #{pm rm jit vm svt perf})
+;; Resource projects
+(def projects [:java9 ["Delivery" "TechDev" "Platforms" "Performance"] :java8 ["Delivery" "TechDev"]])
+
 
 ;;; Define key functions
 
