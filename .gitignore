@@ -23,3 +23,11 @@ pom.xml.asc
 /csv2/db/database.db
 /csv2/#project.clj#
 /csv2/.#project.clj
+/csv2/target/
+/csv2/.nrepl-port
+/csv2/On boards - China (Kai Zhou).csv
+/csv2/On boards - China (Kai Zhou).csv~
+/csv2/On boards - China (Kai Zhou).ods
+/csv2/db/
+/csv2/src/csv2/.~lock.file.csv#
+/csv2/tmp.csv

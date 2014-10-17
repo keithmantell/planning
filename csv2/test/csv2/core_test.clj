@@ -1,17 +1,15 @@
 (ns csv2.core-test
-  (:use midje.sweet)
-  (:use [csv2.core]))
+  (:use [midje.sweet :as midje])
+  (:use [csv2.core :as core])
+  (:use [clojure.java.jdbc :as jdbc]))
 
-(println "You sbould expect to see three failures below.")
+(midje/facts "db-connection"
+             
+  (midje/fact "stuff"
+        (jdbc/db-do-commands core/db-spec
+                             (jdbc/drop-table-ddl :supply :entities clojure.string/upper-case)
+                             core/supply-table
+                            )
+ 
 
-(facts "about `first-element`"
-  (fact "it normally returns the first element"
-    (first-element [1 2 3] :default) => 1
-    (first-element '(1 2 3) :default) => 1)
 
-  ;; I'm a little unsure how Clojure types map onto the Lisp I'm used to.
-  (fact "default value is returned for empty sequences"
-    (first-element [] :default) => :default
-    (first-element '() :default) => :default
-    (first-element nil :default) => :default
-    (first-element (filter even? [1 3 5]) :default) => :default))
