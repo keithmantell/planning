@@ -1,13 +1,26 @@
 (ns csv2.core
   (:use [csv-map.core]) 
-  (:use [clojure.java.jdbc :as jdbc] ))
+  (:use [clojure.java.jdbc :as jdbc] )
+  (:require [clojure.java.io :as io]))
 
-;; write supply csv files to database supply table
 
 ;; read files
-(def directory (clojure.java.io/file "~/clojure/planning/csv2/src/csv2"))
-(def files (file-seq directory))
-(take 10 files)
+
+;;; read files from current loaction ( and sub-directories))
+(defn get-file-names []
+  (->> (file-seq (io/file "."))
+       (filter #(.isFile %))
+       (map #(.getPath %))
+       (filterv #(.endsWith % ".csv"))))
+;user> (get-file-names)
+; => ["./file.csv" "./src/csv2/file.csv"]
+
+(def data
+  (doall (map #(parse-csv (slurp % ) :key :keyword :delimiter \;)(get-file-names))))
+;(({:feb14 "1", :jan14 "1", :id "21598", :resource "Bob", :manager "Mike"}))
+
+(keys (first data))
+; (:role :category :nov14 :may14 :mar14 :jan14 :sep14 :aug14 :jun14 :type :source :dec14 :jul14 :oct14 :manager :project :id :resource :apr14 :dec13 :location :feb14)
 
 ;; define database connection details
 (def db-spec
@@ -16,34 +29,29 @@
    :subname     "db/database.db"
    })
 
+(defn demand-table []
+  (jdbc/create-table-ddl :demand
+                         [:project :text]
+                         [:category :text]
+                         [:january :text][:february :text][:march :text][:april :text][:may :text][:june :text][:july :text][:august :text][:september :text][:october :text][:november :text][:december :text]))
 (defn supply-table []
   (jdbc/create-table-ddl :supply
-                         [:manager :text]
                          [:name :text]
                          [:id :text]
                          [:category :text]
-                         [:january :text]
-                         [:february :text]))
-(defn insert-row [row]
+                         [:project :text]
+                         [:january :text][:february :text][:march :text][:april :text][:may :text][:june :text][:july :text][:august :text][:september :text][:october :text][:november :text][:december :text]))
+(defn insert-supply-row [row]
   (jdbc/insert! db-spec :supply row))
 
+(defn insert-demand-row [row]
+  (jdbc/insert! db-spec :demand row))
+
 ;; Resource categories (set)
-(def categories #{pm rm jit vm svt perf})
+(def categories #{:pm :rm :jit :vm :svt :perf})
 ;; Resource projects
 (def projects [:java9 ["Delivery" "TechDev" "Platforms" "Performance"] :java8 ["Delivery" "TechDev"]])
 
-
-;;; Define key functions
-
-; convert keys in map(dir) to map with keywords
-(defn keyw [dir] 
-  (into {} (map #(assoc {} (keyword (key %))(val %)) dir)))
-
-;{:fizz "buzz", :city "winchester", :name "keith"}
-
-;({"February" "1", "January" "1", "Id" "21598", "Name" "Bob", "Manager" "Mike"} {"February" "1", "January" "0", "Id" "12345", "Name" "Angie", "Manager" "Steve"})
-;; csv2.core> (keys (first resource-map))
-;;;("February" "January" "Id" "Name" "Manager")
 
 ;(drop-db)
 ;(create-db)
@@ -65,6 +73,14 @@
   
   (map #(with-db-connection db
           (insert-records :supply %)) allsupply2)
+
+; create table
+(jdbc/db-do-commands db-spec (demand-table))
+; insert a line
+(jdbc/insert! db-spec :demand {:project "proj1"})
+;update project
+(jdbc/update! db-spec :demand {:category "Test" :january "1"} ["project = ?" "proj1"])
                                         ;(({:last_insert_rowid() 7}) ({:last_insert_rowid() 8}))
                                         ; adds records
   )
+
