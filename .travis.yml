@@ -1,0 +1,13 @@
+sudo: required
+
+language: clojure
+
+services:
+  - docker
+
+before_install:
+  - docker build -t my-clojure-app .
+  - docker run -it --rm --name my-running-app my-clojure-app
+
+# Useful command
+# docker exec -it <container id> bash
