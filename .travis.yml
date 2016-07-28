@@ -6,7 +6,7 @@ services:
   - docker
 
 before_install:
-  - docker build -t my-clojure-app .
+#  - docker build -t my-clojure-app .
 #  - docker run -it --rm --name my-running-app my-clojure-app
 
 # Useful command
